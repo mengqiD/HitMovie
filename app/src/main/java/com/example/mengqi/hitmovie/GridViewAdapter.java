@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -24,14 +23,13 @@ public class GridViewAdapter extends BaseAdapter {
     public GridViewAdapter(Context context) {
         this.context = context;
 
-        // Ensure we get a different ordering of images on each run.
-        Collections.addAll(urls, MainFragment.URLS);
-        Collections.shuffle(urls);
+        ArrayList<Movie> movies = Utils.extractMovies();
+        for (Movie movie : movies) {
+            String poster = "http://image.tmdb.org/t/p/w500/" + movie.poster;
+            urls.add(poster);
+        }
 
-        // Triple up the list.
-        ArrayList<String> copy = new ArrayList<>(urls);
-        urls.addAll(copy);
-        urls.addAll(copy);
+
     }
 
     @Override
