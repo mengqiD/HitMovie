@@ -1,15 +1,14 @@
 package com.example.mengqi.hitmovie;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
-
-
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 /**
  * Created by Mengqi on 2/7/17.
@@ -50,7 +49,13 @@ public class MainFragment extends Fragment {
 
         gridView.setAdapter(new GridViewAdapter(getContext()));
         gridView.setOnScrollListener(new ScrollListener(getContext()));
-
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 }
