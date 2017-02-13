@@ -57,6 +57,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MovieFragment fragment = new MovieFragment();
                 Bundle args = new Bundle();
+                mMovie = (Movie) parent.getItemAtPosition(position);
                 args.putSerializable(Utils.KEY_MOVIE, mMovie);
                 fragment.setArguments(args);
                 mActivity = getActivity();
@@ -91,9 +92,10 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         mAdapter.clear();
         if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
+        } else {
+            mEmptyView.setText(R.string.no_movies);
         }
-        mEmptyView.setText(R.string.no_movies);
-        mProgress.setVisibility(View.INVISIBLE);
+        mProgress.setVisibility(View.GONE);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class GridViewAdapter extends ArrayAdapter<Movie> {
             view.setPadding(8, 8, 8, 8);
         }
         Movie movie = getItem(position);
-        String poster = "http://image.tmdb.org/t/p/w500/" + movie.poster;
+        String poster = movie.poster;
 
         // Trigger the download of the URL asynchronously into the image view.
         Picasso.with(context) //

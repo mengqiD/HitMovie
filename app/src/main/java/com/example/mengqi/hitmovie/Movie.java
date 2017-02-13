@@ -19,7 +19,7 @@ public class Movie implements Serializable {
 
     public Movie(String title, String poster, String overview, String rate, String release) {
         this.title = title;
-        this.poster = poster;
+        this.poster = "http://image.tmdb.org/t/p/w500/" + poster;
         this.overview = overview;
         this.rate = rate;
         this.release = release;
