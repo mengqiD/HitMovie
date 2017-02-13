@@ -20,10 +20,9 @@ public class MovieFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add a Person");
         if (getArguments() != null)
             mMovie = (Movie) getArguments().getSerializable(Utils.KEY_MOVIE);
-
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(mMovie.title);
     }
 
     @Override

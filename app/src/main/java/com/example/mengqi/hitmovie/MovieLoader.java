@@ -19,6 +19,11 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     }
 
     @Override
+    protected void onStartLoading() {
+        forceLoad();
+    }
+
+    @Override
     public List<Movie> loadInBackground() {
         if (mUrl == null) {
             return null;

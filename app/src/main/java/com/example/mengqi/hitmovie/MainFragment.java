@@ -1,7 +1,10 @@
 package com.example.mengqi.hitmovie;
 
-import android.app.Activity;
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +24,13 @@ import java.util.List;
  * Created by Mengqi on 2/7/17.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
     private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=a2fdd315a50fdfbfd7f570c3be23e740";
-
+    private static final int MOVIE_LOADER_ID = 1;
     private GridViewAdapter mAdapter;
+    private TextView mEmptyView;
+    private ProgressBar mProgress;
     GridView mGridView;
     Movie mMovie;
     private FragmentActivity mActivity;
@@ -32,7 +39,6 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
     }
 
     @Override
@@ -40,6 +46,8 @@ public class MainFragment extends Fragment {
                              @Nullable final Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.main_fragment, container, false);
         mGridView = (GridView) view.findViewById(R.id.grid_view);
+        mProgress = (ProgressBar) view.findViewById(R.id.progress);
+        mEmptyView = (TextView) view.findViewById(R.id.empty_view);
 
         mAdapter = new GridViewAdapter(getContext(), new ArrayList<Movie>());
         mGridView.setAdapter(mAdapter);
@@ -61,50 +69,35 @@ public class MainFragment extends Fragment {
             }
         });
 
-        new MyAsyncTask(getActivity(), mGridView).execute(POPULARITY_ORDER);
+        ConnectivityManager mManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = mManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoaderManager loaderManager = getActivity().getLoaderManager();
+            loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
+        } else {
+            mProgress.setVisibility(View.GONE);
+            mEmptyView.setText(R.string.no_internet);
+        }
         return view;
     }
 
-    private class MyAsyncTask extends AsyncTask<String, Void, List<Movie>> {
-        GridView mGridView;
-        Activity mContex;
-
-        public MyAsyncTask(Activity contex, GridView gview) {
-            this.mGridView = gview;
-            this.mContex = contex;
-        }
-
-        @Override
-        protected List<Movie> doInBackground(String... params) {
-            if (params.length < 1 || params[0] == null) {
-                return null;
-            }
-            List<Movie> fetchMovies = Utils.fetchMovieData(params[0]);
-            return fetchMovies;
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> data) {
-            mAdapter.clear();
-            if (data != null && !data.isEmpty()) {
-                mAdapter.addAll(data);
-            }
-        }
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        return new MovieLoader(getActivity(), POPULARITY_ORDER);
     }
 
-//    @Override
-//    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-//        return new MovieLoader(getContext(),POPULARITY_ORDER);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
-//        mAdapter.clear();
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<List<Movie>> loader) {
-//        mAdapter.clear();
-//    }
-//}
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
+        mAdapter.clear();
+        if (data != null && !data.isEmpty()) {
+            mAdapter.addAll(data);
+        }
+        mEmptyView.setText(R.string.no_movies);
+        mProgress.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
+        mAdapter.clear();
+    }
 }
