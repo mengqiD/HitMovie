@@ -33,4 +33,8 @@ public class MovieFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+    }
 }
