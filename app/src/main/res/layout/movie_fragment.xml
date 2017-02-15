@@ -11,10 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
-        android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
     <TextView
@@ -51,10 +51,13 @@
         android:id="@+id/overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageView"
         android:layout_alignLeft="@+id/title"
         android:layout_below="@+id/title"
         android:layout_marginRight="5dp"
         android:layout_marginTop="15dp"
+        android:maxLines="10"
+        android:scrollbars="vertical"
         android:text="Name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
@@ -62,20 +65,20 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/data_release"
-        android:layout_alignStart="@+id/data_release" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/data_release"
+        android:layout_margin="5dp" />
 
     <TextView
+        android:id="@+id/rate_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ratingBar"
-        android:layout_toEndOf="@+id/ratingBar"
         android:layout_alignTop="@id/ratingBar"
-        android:gravity="center"
-        android:textSize="20sp"
         android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/ratingBar"
+        android:layout_toRightOf="@+id/ratingBar"
+        android:gravity="center"
         android:paddingTop="5dp"
-
-        android:id="@+id/rate_score" />
+        android:textSize="20sp" />
 </RelativeLayout>
