@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +57,8 @@ public class MovieFragment extends Fragment {
         mOverview.setText(mMovie.overview);
         mReleaseDate.setText("Release Date: " + mMovie.release);
         mRatingBar.setRating(rate);
-        mRateScore.setText(mMovie.rate);
+        mRateScore.setText(mMovie.rate + "/10");
+        mOverview.setMovementMethod(new ScrollingMovementMethod());
         return view;
     }
 
@@ -78,7 +80,7 @@ public class MovieFragment extends Fragment {
     private void setmImageView(ImageView imageView, String photoPath) {
         Picasso.with(getContext())
                 .load(photoPath)
-                .resize(400, 600)
+                .resize(600, 800)
                 .centerCrop()
                 .into(imageView);
 
