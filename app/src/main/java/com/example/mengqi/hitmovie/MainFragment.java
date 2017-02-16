@@ -26,7 +26,7 @@ import java.util.List;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=a2fdd315a50fdfbfd7f570c3be23e740";
+    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=YOURKEY";
     private static final int MOVIE_LOADER_ID = 1;
     private GridViewAdapter mAdapter;
     private TextView mEmptyView;

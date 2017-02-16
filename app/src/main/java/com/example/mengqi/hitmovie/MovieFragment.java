@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -28,6 +30,8 @@ public class MovieFragment extends Fragment {
     private TextView mReleaseDate;
     private RatingBar mRatingBar;
     private TextView mRateScore;
+    private ListView mListView;
+    private TrailerAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class MovieFragment extends Fragment {
         mReleaseDate = (TextView) view.findViewById(R.id.data_release);
         mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         mRateScore = (TextView) view.findViewById(R.id.rate_score);
+        mListView = (ListView) view.findViewById(R.id.trailerView);
+        mAdapter = new TrailerAdapter(getContext(), mMovie.trailers);
 
         float rate = Float.parseFloat(mMovie.rate) / 2;
         setmImageView(mImageView, mMovie.poster);
@@ -59,6 +65,14 @@ public class MovieFragment extends Fragment {
         mRatingBar.setRating(rate);
         mRateScore.setText(mMovie.rate + "/10");
         mOverview.setMovementMethod(new ScrollingMovementMethod());
+        mListView.setAdapter(mAdapter);
+
+        mListView.setOnScrollListener(new ScrollListener(getContext()));
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
         return view;
     }
 
@@ -83,6 +97,8 @@ public class MovieFragment extends Fragment {
                 .resize(600, 800)
                 .centerCrop()
                 .into(imageView);
-
     }
+
+
 }
+
