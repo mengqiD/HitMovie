@@ -24,9 +24,10 @@ import java.util.List;
 public class Utils {
     private static final String LOG_TAG = Utils.class.getSimpleName();
     public static final String KEY_MOVIE = "current_movie";
+    public static final String KEY_SOURCE = "current_trailer";
 
     private static final String TAILER_BASE_1 = "https://api.themoviedb.org/3/movie/";
-    private static final String TAILER_BASE_2 = "/trailers?api_key=YOURKEY";
+    private static final String TAILER_BASE_2 = "/trailers?api_key=a2fdd315a50fdfbfd7f570c3be23e740";
 
 
     public static ArrayList<Movie> extractMovies(String movieJson) {

@@ -3,6 +3,7 @@ package com.example.mengqi.hitmovie;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class MovieFragment extends Fragment {
     private TextView mRateScore;
     private ListView mListView;
     private TrailerAdapter mAdapter;
+    private FragmentActivity mActivity;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -71,6 +73,17 @@ public class MovieFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PopWindowFragment fragment = new PopWindowFragment();
+                Bundle args = new Bundle();
+                String source = (String) parent.getItemAtPosition(position);
+                args.putSerializable(Utils.KEY_SOURCE, source);
+                fragment.setArguments(args);
+                mActivity = getActivity();
+                mActivity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.container, fragment)
+                        .commit();
             }
         });
         return view;
