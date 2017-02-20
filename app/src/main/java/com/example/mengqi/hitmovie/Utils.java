@@ -1,6 +1,10 @@
 package com.example.mengqi.hitmovie;
 
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,8 +30,9 @@ public class Utils {
     public static final String KEY_MOVIE = "current_movie";
     public static final String KEY_SOURCE = "current_trailer";
 
-    private static final String TAILER_BASE_1 = "https://api.themoviedb.org/3/movie/";
-    private static final String TAILER_BASE_2 = "/trailers?api_key=a2fdd315a50fdfbfd7f570c3be23e740";
+    private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
+    private static final String TAILER_BASE = "/trailers?api_key=YOURKEY";
+    public static final String REVIEW_BASE = "/reviews?api_key=YOURKEY";
 
 
     public static ArrayList<Movie> extractMovies(String movieJson) {
@@ -55,7 +60,8 @@ public class Utils {
                 Movie movie = new Movie(title, posterPath, overView, userRate, releaseDate);
                 movie.setTrailerID(trailerID);
                 movies.add(movie);
-                movie.trailers = fetchTrailerData(TAILER_BASE_1 + movie.trailerID + TAILER_BASE_2);
+                movie.trailers = fetchTrailerData(API_BASE + movie.trailerID + TAILER_BASE);
+                movie.reviews = fetchReviewData(API_BASE + movie.trailerID + REVIEW_BASE);
             }
 
         } catch (JSONException e) {
@@ -71,12 +77,8 @@ public class Utils {
 
     public static ArrayList<String> extractTrailers(String movieJson) {
 
-        // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<String> trailers = new ArrayList<>();
 
-        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
@@ -98,6 +100,38 @@ public class Utils {
 
         // Return the list of earthquakes
         return trailers;
+    }
+
+    public static List<String> extractReviews(String movieJson) {
+
+        // Create an empty ArrayList that we can start adding earthquakes to
+        List<String> reviews = new ArrayList<>();
+
+        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
+        // is formatted, a JSONException exception object will be thrown.
+        // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
+
+            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
+            // build up a list of Earthquake objects with the corresponding data.
+            JSONObject baseJSON = new JSONObject(movieJson);
+            JSONArray reviewArray = baseJSON.getJSONArray("results");
+            for (int i = 0; i < reviewArray.length(); i++) {
+                JSONObject currentMovie = reviewArray.getJSONObject(i);
+                String author = currentMovie.getString("author");
+                String review = currentMovie.getString("content");
+                reviews.add(author + "[st]" + review);
+            }
+
+        } catch (JSONException e) {
+            // If an error is thrown when executing any of the above statements in the "try" block,
+            // catch the exception here, so the app doesn't crash. Print a log message
+            // with the message from the exception.
+            Log.e("QueryUtils", "Problem parsing the trailer JSON results", e);
+        }
+
+        // Return the list of earthquakes
+        return reviews;
     }
 
     private static String makeHttpRequest(URL url) throws IOException {
@@ -193,4 +227,41 @@ public class Utils {
         return trailers;
     }
 
+    public static List<String> fetchReviewData(String requestUrl) {
+        // Create URL object
+        URL url = createUrl(requestUrl);
+
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+        }
+        List<String> trailers = extractReviews(jsonResponse);
+
+        return trailers;
+    }
+
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
 }

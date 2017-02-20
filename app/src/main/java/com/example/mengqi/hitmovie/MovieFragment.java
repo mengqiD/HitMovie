@@ -29,10 +29,13 @@ public class MovieFragment extends Fragment {
     private TextView mTitle;
     private TextView mOverview;
     private TextView mReleaseDate;
+    private TextView mReviewText;
     private RatingBar mRatingBar;
     private TextView mRateScore;
-    private ListView mListView;
-    private TrailerAdapter mAdapter;
+    private ListView mListViewTrailer;
+    private ListView mListViewReview;
+    private TrailerAdapter mAdapterT;
+    private ReviewAdapter mAdapterR;
     private FragmentActivity mActivity;
 
     @Override
@@ -50,14 +53,23 @@ public class MovieFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.movie_fragment, container, false);
+
         mImageView = (ImageView) view.findViewById(R.id.imageView);
         mTitle = (TextView) view.findViewById(R.id.title);
         mOverview = (TextView) view.findViewById(R.id.overview);
         mReleaseDate = (TextView) view.findViewById(R.id.data_release);
         mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         mRateScore = (TextView) view.findViewById(R.id.rate_score);
-        mListView = (ListView) view.findViewById(R.id.trailerView);
-        mAdapter = new TrailerAdapter(getContext(), mMovie.trailers);
+        mListViewTrailer = (ListView) view.findViewById(R.id.trailerView);
+        mListViewReview = (ListView) view.findViewById(R.id.reviewView);
+        mReviewText = (TextView) view.findViewById(R.id.review_text);
+
+        mAdapterT = new TrailerAdapter(getContext(), mMovie.trailers);
+        if (mMovie.reviews.size() == 0) {
+            mReviewText.setText("No reviews available.");
+        }
+        mAdapterR = new ReviewAdapter(getContext(), mMovie.reviews);
+
 
         float rate = Float.parseFloat(mMovie.rate) / 2;
         setmImageView(mImageView, mMovie.poster);
@@ -67,10 +79,13 @@ public class MovieFragment extends Fragment {
         mRatingBar.setRating(rate);
         mRateScore.setText(mMovie.rate + "/10");
         mOverview.setMovementMethod(new ScrollingMovementMethod());
-        mListView.setAdapter(mAdapter);
+        mListViewTrailer.setAdapter(mAdapterT);
+        mListViewReview.setAdapter(mAdapterR);
+        Utils.setListViewHeightBasedOnChildren(mListViewTrailer);
+        Utils.setListViewHeightBasedOnChildren(mListViewReview);
 
-        mListView.setOnScrollListener(new ScrollListener(getContext()));
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        mListViewTrailer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PopWindowFragment fragment = new PopWindowFragment();
@@ -112,6 +127,7 @@ public class MovieFragment extends Fragment {
                 .into(imageView);
     }
 
-
 }
+
+
 

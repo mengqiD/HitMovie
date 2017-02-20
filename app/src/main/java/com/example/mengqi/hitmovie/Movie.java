@@ -16,6 +16,8 @@ public class Movie implements Serializable {
     String release;
     String trailerID;
     List<String> trailers = new ArrayList<>();
+    List<String> reviews = new ArrayList<>();
+
 
 
     public Movie() {
@@ -36,5 +38,9 @@ public class Movie implements Serializable {
 
     public void setTrailers(ArrayList trailerList) {
         this.trailers = trailerList;
+    }
+
+    public void setReviews(ArrayList reviewList) {
+        this.reviews = reviewList;
     }
 }
