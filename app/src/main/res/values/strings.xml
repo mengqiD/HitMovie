@@ -2,4 +2,15 @@
     <string name="app_name">HitMovie</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="no_movies">No Movies Available</string>
+    <string name="order_by_popular">Order by Popular</string>
+    <string name="order_by_rate">Order by Rating</string>
+    <string name="settings_order_by_popular_label">Popular</string>
+    <string name="settings_order_by_popular_value" translatable="false">popular</string>
+
+    <string name="settings_order_by_rate_label">Rating</string>
+    <string name="settings_order_by_rate_value" translatable="false">Rating</string>
+
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_popular_value</string>
 </resources>

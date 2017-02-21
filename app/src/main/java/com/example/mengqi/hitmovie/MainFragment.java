@@ -3,13 +3,18 @@ package com.example.mengqi.hitmovie;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,7 +31,8 @@ import java.util.List;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=YOURKEY";
+    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key[YOURKEY]";
+    private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key=[YOURKEY]";
     private static final int MOVIE_LOADER_ID = 1;
     private GridViewAdapter mAdapter;
     private TextView mEmptyView;
@@ -35,10 +41,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     Movie mMovie;
     private FragmentActivity mActivity;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
     }
 
     @Override
@@ -84,7 +92,20 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new MovieLoader(getActivity(), POPULARITY_ORDER);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+        String order;
+        if (orderBy.equals("Rating")) {
+            order = RATE_ORDER;
+        } else {
+            order = POPULARITY_ORDER;
+        }
+
+        return new MovieLoader(getActivity(), order);
     }
 
     @Override
@@ -101,5 +122,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
         mAdapter.clear();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

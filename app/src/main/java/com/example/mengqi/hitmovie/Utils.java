@@ -31,8 +31,8 @@ public class Utils {
     public static final String KEY_SOURCE = "current_trailer";
 
     private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
-    private static final String TAILER_BASE = "/trailers?api_key=YOURKEY";
-    public static final String REVIEW_BASE = "/reviews?api_key=YOURKEY";
+    private static final String TAILER_BASE = "/trailers?api_key=[YOURKEY]";
+    public static final String REVIEW_BASE = "/reviews?api_key=[YOURKEY]";
 
 
     public static ArrayList<Movie> extractMovies(String movieJson) {
