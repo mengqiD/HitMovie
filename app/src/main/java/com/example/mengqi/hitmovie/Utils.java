@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,10 +31,16 @@ public class Utils {
     private static final String LOG_TAG = Utils.class.getSimpleName();
     public static final String KEY_MOVIE = "current_movie";
     public static final String KEY_SOURCE = "current_trailer";
+    public static final String KEY_FAVORITE = "favorite_options";
+    public static final String TMDB_API = "a2fdd315a50fdfbfd7f570c3be23e740";
 
     private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
-    private static final String TAILER_BASE = "/trailers?api_key=[YOURKEY]";
-    public static final String REVIEW_BASE = "/reviews?api_key=[YOURKEY]";
+    private static final String TAILER_BASE = "/trailers?api_key=" + TMDB_API;
+    public static final String REVIEW_BASE = "/reviews?api_key=" + TMDB_API;
+
+    public static final Gson GSON = new Gson();
+
+    public static MovieList sMovies = new MovieList(new ArrayList<Movie>());
 
 
     public static ArrayList<Movie> extractMovies(String movieJson) {

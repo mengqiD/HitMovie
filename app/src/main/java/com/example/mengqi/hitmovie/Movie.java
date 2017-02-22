@@ -15,6 +15,7 @@ public class Movie implements Serializable {
     String rate;
     String release;
     String trailerID;
+    boolean favorite = false;
     List<String> trailers = new ArrayList<>();
     List<String> reviews = new ArrayList<>();
 
@@ -42,5 +43,13 @@ public class Movie implements Serializable {
 
     public void setReviews(ArrayList reviewList) {
         this.reviews = reviewList;
+    }
+
+    public void isFavorite() {
+        favorite = true;
+    }
+
+    public void notFavorite() {
+        favorite = false;
     }
 }

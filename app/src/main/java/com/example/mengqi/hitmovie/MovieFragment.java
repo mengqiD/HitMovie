@@ -1,22 +1,27 @@
 package com.example.mengqi.hitmovie;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 
 /**
@@ -36,7 +41,9 @@ public class MovieFragment extends Fragment {
     private ListView mListViewReview;
     private TrailerAdapter mAdapterT;
     private ReviewAdapter mAdapterR;
+    private CheckBox mCheckBox;
     private FragmentActivity mActivity;
+    private SharedPreferences mPreferences;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -63,6 +70,7 @@ public class MovieFragment extends Fragment {
         mListViewTrailer = (ListView) view.findViewById(R.id.trailerView);
         mListViewReview = (ListView) view.findViewById(R.id.reviewView);
         mReviewText = (TextView) view.findViewById(R.id.review_text);
+        mCheckBox = (CheckBox) view.findViewById(R.id.checkBox);
 
         mAdapterT = new TrailerAdapter(getContext(), mMovie.trailers);
         if (mMovie.reviews.size() == 0) {
@@ -101,11 +109,36 @@ public class MovieFragment extends Fragment {
                         .commit();
             }
         });
+        mCheckBox.setChecked(mMovie.favorite);
+
+        mCheckBox.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             if (((CheckBox) v).isChecked()) {
+                                                 sMovies.add(mMovie);
+                                                 mMovie.isFavorite();
+                                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                                 String favoriteString = Utils.GSON.toJson(sMovies);
+                                                 preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
+                                             } else {
+                                                 if (sMovies.contains(mMovie)) {
+                                                     sMovies.movieList.remove(mMovie);
+                                                     mMovie.notFavorite();
+                                                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                                     String favoriteString = Utils.GSON.toJson(sMovies);
+                                                     preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
+                                                 }
+                                             }
+                                         }
+                                     }
+
+        );
         return view;
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+    public void onViewCreated(final View view,
+                              @Nullable final Bundle savedInstanceState) {
     }
 
     @Override

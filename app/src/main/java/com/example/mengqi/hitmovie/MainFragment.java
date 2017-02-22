@@ -31,8 +31,8 @@ import java.util.List;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key[YOURKEY]";
-    private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key=[YOURKEY]";
+    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=" + Utils.TMDB_API;
+    private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + Utils.TMDB_API;
     private static final int MOVIE_LOADER_ID = 1;
     private GridViewAdapter mAdapter;
     private TextView mEmptyView;
@@ -128,5 +128,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+
     }
 }

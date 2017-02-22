@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(settingsIntent);
             return true;
         }
+        if (id == R.id.favorite) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, new FavoriteFragment()).commit();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
