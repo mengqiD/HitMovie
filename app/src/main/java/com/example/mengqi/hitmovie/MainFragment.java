@@ -25,22 +25,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Mengqi on 2/7/17.
- */
+import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
-    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key=" + Utils.TMDB_API;
-    private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key=" + Utils.TMDB_API;
+    private static final String POPULARITY_ORDER = "https://api.themoviedb.org/3/movie/popular?api_key="
+            + Utils.TMDB_API;
+    private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key="
+            + Utils.TMDB_API;
     private static final int MOVIE_LOADER_ID = 1;
     private GridViewAdapter mAdapter;
     private TextView mEmptyView;
     private ProgressBar mProgress;
-    GridView mGridView;
-    Movie mMovie;
+    private GridView mGridView;
+    private Movie mMovie;
     private FragmentActivity mActivity;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,12 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 MovieFragment fragment = new MovieFragment();
                 Bundle args = new Bundle();
                 mMovie = (Movie) parent.getItemAtPosition(position);
-                args.putSerializable(Utils.KEY_MOVIE, mMovie);
+                Movie checkMovie = sMovies.findMatch(mMovie.title);
+                if (checkMovie == null) {
+                    args.putSerializable(Utils.KEY_MOVIE, mMovie);
+                } else {
+                    args.putSerializable(Utils.KEY_MOVIE, checkMovie);
+                }
                 fragment.setArguments(args);
                 mActivity = getActivity();
                 mActivity.getSupportFragmentManager()
@@ -74,7 +78,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                         .addToBackStack(null)
                         .replace(R.id.container, fragment)
                         .commit();
-
             }
         });
 
@@ -85,7 +88,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
         } else {
             mProgress.setVisibility(View.GONE);
-            mEmptyView.setText(R.string.no_internet);
+            mEmptyView.setText(getString(R.string.no_internet));
         }
         return view;
     }
@@ -99,12 +102,11 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 getString(R.string.settings_order_by_default)
         );
         String order;
-        if (orderBy.equals("Rating")) {
+        if (orderBy.equals(getString(R.string.settings_order_by_rate_label))) {
             order = RATE_ORDER;
         } else {
             order = POPULARITY_ORDER;
         }
-
         return new MovieLoader(getActivity(), order);
     }
 
@@ -114,7 +116,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
         } else {
-            mEmptyView.setText(R.string.no_movies);
+            mEmptyView.setText(getString(R.string.no_movies));
         }
         mProgress.setVisibility(View.GONE);
     }
@@ -134,6 +136,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 }

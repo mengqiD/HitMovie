@@ -23,16 +23,12 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Mengqi on 2/9/17.
- */
-
 public class Utils {
     private static final String LOG_TAG = Utils.class.getSimpleName();
     public static final String KEY_MOVIE = "current_movie";
     public static final String KEY_SOURCE = "current_trailer";
     public static final String KEY_FAVORITE = "favorite_options";
-    public static final String TMDB_API = "a2fdd315a50fdfbfd7f570c3be23e740";
+    public static final String TMDB_API = "[YOURKEY]";
 
     private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
     private static final String TAILER_BASE = "/trailers?api_key=" + TMDB_API;
@@ -45,16 +41,9 @@ public class Utils {
 
     public static ArrayList<Movie> extractMovies(String movieJson) {
 
-        // Create an empty ArrayList that we can start adding earthquakes to
         ArrayList<Movie> movies = new ArrayList<>();
 
-        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
-
-            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
-            // build up a list of Earthquake objects with the corresponding data.
             JSONObject baseJSON = new JSONObject(movieJson);
             JSONArray movieArray = baseJSON.getJSONArray("results");
             for (int i = 0; i < movieArray.length(); i++) {
@@ -73,13 +62,8 @@ public class Utils {
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the movie JSON results", e);
         }
-
-        // Return the list of earthquakes
         return movies;
     }
 
@@ -88,9 +72,6 @@ public class Utils {
         ArrayList<String> trailers = new ArrayList<>();
 
         try {
-
-            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
-            // build up a list of Earthquake objects with the corresponding data.
             JSONObject baseJSON = new JSONObject(movieJson);
             JSONArray trailerArray = baseJSON.getJSONArray("youtube");
             for (int i = 0; i < trailerArray.length(); i++) {
@@ -100,28 +81,14 @@ public class Utils {
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
             Log.e("QueryUtils", "Problem parsing the trailer JSON results", e);
         }
-
-        // Return the list of earthquakes
         return trailers;
     }
 
     public static List<String> extractReviews(String movieJson) {
-
-        // Create an empty ArrayList that we can start adding earthquakes to
         List<String> reviews = new ArrayList<>();
-
-        // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
-
-            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
-            // build up a list of Earthquake objects with the corresponding data.
             JSONObject baseJSON = new JSONObject(movieJson);
             JSONArray reviewArray = baseJSON.getJSONArray("results");
             for (int i = 0; i < reviewArray.length(); i++) {
@@ -132,20 +99,15 @@ public class Utils {
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the trailer JSON results", e);
+            Log.e("QueryUtils", "Problem parsing the review JSON results", e);
         }
 
-        // Return the list of earthquakes
         return reviews;
     }
 
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
-        // If the URL is null, then return early.
         if (url == null) {
             return jsonResponse;
         }
@@ -159,7 +121,6 @@ public class Utils {
             urlConnection.setConnectTimeout(15000);
             urlConnection.connect();
 
-
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
@@ -167,7 +128,7 @@ public class Utils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the move JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the movie JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -204,51 +165,42 @@ public class Utils {
     }
 
     public static List<Movie> fetchMovieData(String requestUrl) {
-        // Create URL object
         URL url = createUrl(requestUrl);
 
-        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        List<Movie> movies = extractMovies(jsonResponse);
 
-        return movies;
+        return extractMovies(jsonResponse);
     }
 
     public static List<String> fetchTrailerData(String requestUrl) {
-        // Create URL object
         URL url = createUrl(requestUrl);
 
-        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        List<String> trailers = extractTrailers(jsonResponse);
 
-        return trailers;
+        return extractTrailers(jsonResponse);
     }
 
     public static List<String> fetchReviewData(String requestUrl) {
-        // Create URL object
         URL url = createUrl(requestUrl);
 
-        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        List<String> trailers = extractReviews(jsonResponse);
 
-        return trailers;
+        return extractReviews(jsonResponse);
     }
 
 

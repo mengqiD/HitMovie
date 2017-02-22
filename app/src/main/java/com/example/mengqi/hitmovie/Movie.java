@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Mengqi on 2/9/17.
- */
-
 public class Movie implements Serializable {
     String title;
     String poster;
@@ -19,12 +15,6 @@ public class Movie implements Serializable {
     List<String> trailers = new ArrayList<>();
     List<String> reviews = new ArrayList<>();
 
-
-
-    public Movie() {
-
-    }
-
     public Movie(String title, String poster, String overview, String rate, String release) {
         this.title = title;
         this.poster = "http://image.tmdb.org/t/p/w500/" + poster;
@@ -35,14 +25,6 @@ public class Movie implements Serializable {
 
     public void setTrailerID(String ID) {
         this.trailerID = ID;
-    }
-
-    public void setTrailers(ArrayList trailerList) {
-        this.trailers = trailerList;
-    }
-
-    public void setReviews(ArrayList reviewList) {
-        this.reviews = reviewList;
     }
 
     public void isFavorite() {

@@ -2,8 +2,18 @@
     <string name="app_name">HitMovie</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="no_movies">No Movies Available</string>
+    <string name="no_reviews">No Reviews Available</string>
+    <string name="review_title">Reviews:</string>
+    <string name="release_date">Release Date: </string>
+    <string name="trailers">Trailer </string>
+    <string name="rate_out_of">/10</string>
+    <string name="setting">Settings</string>
     <string name="order_by_popular">Order by Popular</string>
+    <string name="content_description">Movie Poster</string>
     <string name="order_by_rate">Order by Rating</string>
+    <string name="setting_order">Order</string>
+    <string name="setting_favorite">Favorite</string>
+
     <string name="settings_order_by_popular_label">Popular</string>
     <string name="settings_order_by_popular_value" translatable="false">popular</string>
 

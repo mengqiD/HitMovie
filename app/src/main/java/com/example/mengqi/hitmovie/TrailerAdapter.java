@@ -9,10 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Mengqi on 2/16/17.
- */
-
 public class TrailerAdapter extends ArrayAdapter<String> {
 
     public TrailerAdapter(Context context, List<String> trailerSources) {
@@ -26,7 +22,7 @@ public class TrailerAdapter extends ArrayAdapter<String> {
         }
         int number = position + 1;
         TextView tailerNumber = (TextView) listView.findViewById(R.id.number);
-        tailerNumber.setText("Trailer " + number);
+        tailerNumber.setText("Trailers " + number);
         return listView;
     }
 }

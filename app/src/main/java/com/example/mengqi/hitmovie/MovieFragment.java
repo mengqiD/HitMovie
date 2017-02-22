@@ -23,11 +23,6 @@ import com.squareup.picasso.Picasso;
 
 import static com.example.mengqi.hitmovie.Utils.sMovies;
 
-
-/**
- * Created by Mengqi on 2/10/17.
- */
-
 public class MovieFragment extends Fragment {
     private Movie mMovie;
     private ImageView mImageView;
@@ -43,7 +38,6 @@ public class MovieFragment extends Fragment {
     private ReviewAdapter mAdapterR;
     private CheckBox mCheckBox;
     private FragmentActivity mActivity;
-    private SharedPreferences mPreferences;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -60,7 +54,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.movie_fragment, container, false);
-
+        //initialize variables
         mImageView = (ImageView) view.findViewById(R.id.imageView);
         mTitle = (TextView) view.findViewById(R.id.title);
         mOverview = (TextView) view.findViewById(R.id.overview);
@@ -72,27 +66,28 @@ public class MovieFragment extends Fragment {
         mReviewText = (TextView) view.findViewById(R.id.review_text);
         mCheckBox = (CheckBox) view.findViewById(R.id.checkBox);
 
+        //set adapter
         mAdapterT = new TrailerAdapter(getContext(), mMovie.trailers);
         if (mMovie.reviews.size() == 0) {
-            mReviewText.setText("No reviews available.");
+            mReviewText.setText(getString(R.string.no_reviews));
         }
         mAdapterR = new ReviewAdapter(getContext(), mMovie.reviews);
-
-
-        float rate = Float.parseFloat(mMovie.rate) / 2;
-        setmImageView(mImageView, mMovie.poster);
-        mTitle.setText(mMovie.title);
-        mOverview.setText(mMovie.overview);
-        mReleaseDate.setText("Release Date: " + mMovie.release);
-        mRatingBar.setRating(rate);
-        mRateScore.setText(mMovie.rate + "/10");
-        mOverview.setMovementMethod(new ScrollingMovementMethod());
         mListViewTrailer.setAdapter(mAdapterT);
         mListViewReview.setAdapter(mAdapterR);
         Utils.setListViewHeightBasedOnChildren(mListViewTrailer);
         Utils.setListViewHeightBasedOnChildren(mListViewReview);
 
+        //set values
+        float rate = Float.parseFloat(mMovie.rate) / 2;
+        setmImageView(mImageView, mMovie.poster);
+        mTitle.setText(mMovie.title);
+        mOverview.setText(mMovie.overview);
+        mReleaseDate.setText(getString(R.string.release_date) + mMovie.release);
+        mRatingBar.setRating(rate);
+        mRateScore.setText(mMovie.rate + getString(R.string.rate_out_of));
+        mOverview.setMovementMethod(new ScrollingMovementMethod());
 
+        //intent to trailer fragment
         mListViewTrailer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,30 +104,32 @@ public class MovieFragment extends Fragment {
                         .commit();
             }
         });
+
+        //checkbox
         mCheckBox.setChecked(mMovie.favorite);
-
         mCheckBox.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             if (((CheckBox) v).isChecked()) {
-                                                 sMovies.add(mMovie);
-                                                 mMovie.isFavorite();
-                                                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                                 String favoriteString = Utils.GSON.toJson(sMovies);
-                                                 preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
-                                             } else {
-                                                 if (sMovies.contains(mMovie)) {
-                                                     sMovies.movieList.remove(mMovie);
-                                                     mMovie.notFavorite();
-                                                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                                     String favoriteString = Utils.GSON.toJson(sMovies);
-                                                     preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
-                                                 }
-                                             }
-                                         }
-                                     }
-
-        );
+            @Override
+            public void onClick(View v) {
+                Movie checkMovie = sMovies.findMatch(mMovie.title);
+                if (((CheckBox) v).isChecked()) {
+                    if (!sMovies.contains(mMovie) || checkMovie == null) {
+                        sMovies.add(mMovie);
+                        mMovie.isFavorite();
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        String favoriteString = Utils.GSON.toJson(sMovies);
+                        preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
+                    }
+                } else if (!((CheckBox) v).isChecked()) {
+                    if (checkMovie != null) {
+                        sMovies.movieList.remove(mMovie);
+                        mMovie.notFavorite();
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                        String favoriteString = Utils.GSON.toJson(sMovies);
+                        preferences.edit().putString(Utils.KEY_FAVORITE, favoriteString).apply();
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -159,7 +156,6 @@ public class MovieFragment extends Fragment {
                 .centerCrop()
                 .into(imageView);
     }
-
 }
 
 

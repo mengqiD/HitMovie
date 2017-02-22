@@ -1,25 +1,25 @@
 package com.example.mengqi.hitmovie;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Mengqi on 2/21/17.
- */
+import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 public class FavoriteFragment extends Fragment {
 
-
     private RecyclerView mRecyclerView;
-
+    private SharedPreferences mPreference;
     private FavoriteAdapter mFavoriteAdapter;
 
     @Override
@@ -27,14 +27,14 @@ public class FavoriteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Favorites");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.setting_favorite);
+        mPreference = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorite_list, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
         return view;
     }
 
@@ -49,7 +49,11 @@ public class FavoriteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Favorite");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.setting_favorite);
+        String peopleString = mPreference.getString(Utils.KEY_FAVORITE, null);
+        if (TextUtils.isEmpty(peopleString))
+            return;
+        sMovies = Utils.GSON.fromJson(peopleString, MovieList.class);
     }
 
     @Override

@@ -10,18 +10,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by Mengqi on 2/21/17.
- */
-
 public class FavoriteViewHolder extends RecyclerView.ViewHolder {
-
 
     public CardView mCardView;
     public ImageView mImageView;
     public TextView mTextView;
-
-
     private AppCompatActivity mActivity;
     private Movie mMovie;
 
@@ -35,7 +28,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void onClick(View v) {
-                // item clicked
                 MovieFragment fragment = new MovieFragment();
                 Bundle args = new Bundle();
                 args.putSerializable(Utils.KEY_MOVIE, mMovie);
@@ -48,7 +40,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
             }
 
         });
-
     }
 
     public void bind(Movie movie) {
@@ -59,6 +50,4 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
                 .centerCrop()
                 .into(mImageView);
     }
-
-
 }

@@ -5,10 +5,6 @@ import android.content.Context;
 
 import java.util.List;
 
-/**
- * Created by Mengqi on 2/9/17.
- */
-
 public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     private String mUrl;
 
@@ -27,7 +23,6 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
         if (mUrl == null) {
             return null;
         }
-        List<Movie> movies = Utils.fetchMovieData(mUrl);
-        return movies;
+        return Utils.fetchMovieData(mUrl);
     }
 }

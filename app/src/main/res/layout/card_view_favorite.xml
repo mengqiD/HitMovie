@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/movie_photo"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="16dp"
             android:scaleType="centerCrop"
@@ -22,10 +22,9 @@
             android:id="@+id/movie_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/movie_photo"
-            android:layout_toEndOf="@+id/movie_photo" />
+            android:layout_toEndOf="@+id/movie_photo"
+            android:layout_toRightOf="@+id/movie_photo" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
