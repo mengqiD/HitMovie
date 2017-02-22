@@ -28,7 +28,7 @@ public class Utils {
     public static final String KEY_MOVIE = "current_movie";
     public static final String KEY_SOURCE = "current_trailer";
     public static final String KEY_FAVORITE = "favorite_options";
-    public static final String TMDB_API = "[YOURKEY]";
+    public static final String TMDB_API = "[YOUR_API_KEY]";
 
     private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
     private static final String TAILER_BASE = "/trailers?api_key=" + TMDB_API;

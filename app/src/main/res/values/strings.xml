@@ -4,8 +4,8 @@
     <string name="no_movies">No Movies Available</string>
     <string name="no_reviews">No Reviews Available</string>
     <string name="review_title">Reviews:</string>
-    <string name="release_date">Release Date: </string>
-    <string name="trailers">Trailer </string>
+    <string name="release_date">Release Date:\u0020</string>
+    <string name="trailers">Trailer\u0020</string>
     <string name="rate_out_of">/10</string>
     <string name="setting">Settings</string>
     <string name="order_by_popular">Order by Popular</string>

@@ -22,7 +22,7 @@ public class TrailerAdapter extends ArrayAdapter<String> {
         }
         int number = position + 1;
         TextView tailerNumber = (TextView) listView.findViewById(R.id.number);
-        tailerNumber.setText("Trailers " + number);
+        tailerNumber.setText(getContext().getString(R.string.trailers) + number);
         return listView;
     }
 }
