@@ -29,7 +29,7 @@ public class GridViewAdapter extends ArrayAdapter<Movie> {
         }
         Movie movie = getItem(position);
         String poster = movie.poster;
-        // Trigger the download of the URL asynchronously into the image view.
+
         Picasso.with(context)
                 .load(poster)
                 .fit()

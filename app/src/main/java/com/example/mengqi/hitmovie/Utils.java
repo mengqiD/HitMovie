@@ -28,18 +28,18 @@ public class Utils {
     public static final String KEY_MOVIE = "current_movie";
     public static final String KEY_SOURCE = "current_trailer";
     public static final String KEY_FAVORITE = "favorite_options";
-    public static final String TMDB_API = "[YOUR_API_KEY]";
+    public static final String TMDB_API = "YOUR_API_KEY";
 
     private static final String API_BASE = "https://api.themoviedb.org/3/movie/";
     private static final String TAILER_BASE = "/trailers?api_key=" + TMDB_API;
-    public static final String REVIEW_BASE = "/reviews?api_key=" + TMDB_API;
+    private static final String REVIEW_BASE = "/reviews?api_key=" + TMDB_API;
 
     public static final Gson GSON = new Gson();
 
     public static MovieList sMovies = new MovieList(new ArrayList<Movie>());
 
 
-    public static ArrayList<Movie> extractMovies(String movieJson) {
+    private static ArrayList<Movie> extractMovies(String movieJson) {
 
         ArrayList<Movie> movies = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class Utils {
         return movies;
     }
 
-    public static ArrayList<String> extractTrailers(String movieJson) {
+    private static ArrayList<String> extractTrailers(String movieJson) {
 
         ArrayList<String> trailers = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class Utils {
         return trailers;
     }
 
-    public static List<String> extractReviews(String movieJson) {
+    private static List<String> extractReviews(String movieJson) {
         List<String> reviews = new ArrayList<>();
         try {
             JSONObject baseJSON = new JSONObject(movieJson);
@@ -164,7 +164,7 @@ public class Utils {
         return url;
     }
 
-    public static List<Movie> fetchMovieData(String requestUrl) {
+    protected static List<Movie> fetchMovieData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -177,7 +177,7 @@ public class Utils {
         return extractMovies(jsonResponse);
     }
 
-    public static List<String> fetchTrailerData(String requestUrl) {
+    private static List<String> fetchTrailerData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -190,7 +190,7 @@ public class Utils {
         return extractTrailers(jsonResponse);
     }
 
-    public static List<String> fetchReviewData(String requestUrl) {
+    private static List<String> fetchReviewData(String requestUrl) {
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
