@@ -6,7 +6,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,7 +13,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
 
     public CardView mCardView;
     public ImageView mImageView;
-    public TextView mTextView;
     private AppCompatActivity mActivity;
     private Movie mMovie;
 
@@ -22,7 +20,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mActivity = activity;
         mImageView = (ImageView) itemView.findViewById(R.id.movie_photo);
-        mTextView = (TextView) itemView.findViewById(R.id.movie_name);
         mCardView = (CardView) itemView.findViewById(R.id.card_view);
         itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -44,9 +41,8 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Movie movie) {
         mMovie = movie;
-        mTextView.setText(movie.title);
         Picasso.with(mActivity.getApplicationContext()).load(movie.poster).
-                resize(600, 800)
+                resize(800, 950)
                 .centerCrop()
                 .into(mImageView);
     }
