@@ -25,6 +25,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Movie>> {
@@ -34,10 +37,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     private static final String RATE_ORDER = "https://api.themoviedb.org/3/movie/top_rated?api_key="
             + Utils.TMDB_API;
     private static final int MOVIE_LOADER_ID = 1;
+    @BindView(R.id.grid_view)
+    GridView mGridView;
+    @BindView(R.id.progress)
+    ProgressBar mProgress;
+    @BindView(R.id.empty_view)
+    TextView mEmptyView;
+
     private GridViewAdapter mAdapter;
-    private TextView mEmptyView;
-    private ProgressBar mProgress;
-    private GridView mGridView;
     private Movie mMovie;
     private FragmentActivity mActivity;
 
@@ -54,9 +61,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.main_fragment, container, false);
-        mGridView = (GridView) view.findViewById(R.id.grid_view);
-        mProgress = (ProgressBar) view.findViewById(R.id.progress);
-        mEmptyView = (TextView) view.findViewById(R.id.empty_view);
+        ButterKnife.bind(this, view);
 
         mAdapter = new GridViewAdapter(getContext(), new ArrayList<Movie>());
         mGridView.setAdapter(mAdapter);

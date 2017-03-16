@@ -40,7 +40,7 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
     public void bind(Movie movie) {
         mMovie = movie;
         Picasso.with(mActivity.getApplicationContext()).load(movie.poster).
-                resize(800, 950)
+                resize(500, 600)
                 .centerCrop()
                 .into(mImageView);
     }

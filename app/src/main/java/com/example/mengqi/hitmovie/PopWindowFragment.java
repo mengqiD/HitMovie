@@ -11,9 +11,13 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PopWindowFragment extends Fragment {
     String trailer;
-    private WebView webView;
+    @BindView(R.id.web_view)
+    WebView webView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,8 @@ public class PopWindowFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pop_fragment, container, false);
+        ButterKnife.bind(this, view);
 
-        webView = (WebView) view.findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override

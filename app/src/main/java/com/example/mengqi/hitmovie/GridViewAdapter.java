@@ -33,7 +33,6 @@ public class GridViewAdapter extends ArrayAdapter<Movie> {
         Picasso.with(context)
                 .load(poster)
                 .fit()
-                .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
                 .tag(context)
                 .into(view);

@@ -21,22 +21,38 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 public class MovieFragment extends Fragment {
     private Movie mMovie;
-    private ImageView mImageView;
-    private TextView mTitle;
-    private TextView mOverview;
-    private TextView mReleaseDate;
-    private TextView mReviewText;
-    private RatingBar mRatingBar;
-    private TextView mRateScore;
-    private ListView mListViewTrailer;
-    private ListView mListViewReview;
+
+    @BindView(R.id.imageView)
+    ImageView mImageView;
+    @BindView(R.id.title)
+    TextView mTitle;
+    @BindView(R.id.overview)
+    TextView mOverview;
+    @BindView(R.id.data_release)
+    TextView mReleaseDate;
+    @BindView(R.id.review_text)
+    TextView mReviewText;
+    @BindView(R.id.ratingBar)
+    RatingBar mRatingBar;
+    @BindView(R.id.rate_score)
+    TextView mRateScore;
+    @BindView(R.id.trailerView)
+    ListView mListViewTrailer;
+    @BindView(R.id.reviewView)
+    ListView mListViewReview;
+    @BindView(R.id.checkBox)
+    CheckBox mCheckBox;
+
+
     private TrailerAdapter mAdapterT;
     private ReviewAdapter mAdapterR;
-    private CheckBox mCheckBox;
     private FragmentActivity mActivity;
 
     @Override
@@ -54,17 +70,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable final Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.movie_fragment, container, false);
-        //initialize variables
-        mImageView = (ImageView) view.findViewById(R.id.imageView);
-        mTitle = (TextView) view.findViewById(R.id.title);
-        mOverview = (TextView) view.findViewById(R.id.overview);
-        mReleaseDate = (TextView) view.findViewById(R.id.data_release);
-        mRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-        mRateScore = (TextView) view.findViewById(R.id.rate_score);
-        mListViewTrailer = (ListView) view.findViewById(R.id.trailerView);
-        mListViewReview = (ListView) view.findViewById(R.id.reviewView);
-        mReviewText = (TextView) view.findViewById(R.id.review_text);
-        mCheckBox = (CheckBox) view.findViewById(R.id.checkBox);
+        ButterKnife.bind(this, view);
 
         //set adapter
         mAdapterT = new TrailerAdapter(getContext(), mMovie.trailers);

@@ -9,13 +9,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class ReviewAdapter extends ArrayAdapter<String> {
-    private List<String> reviewList;
+    @BindView(R.id.review_author)
+    TextView reviewAuthor;
+    @BindView(R.id.review)
+    TextView review;
 
     public ReviewAdapter(Context context, List<String> reviewList) {
         super(context, 0, reviewList);
-        this.reviewList = reviewList;
     }
 
     public View getView(int position, View contextView, ViewGroup parent) {
@@ -23,8 +28,8 @@ public class ReviewAdapter extends ArrayAdapter<String> {
         if (listView == null) {
             listView = LayoutInflater.from(getContext()).inflate(R.layout.review_list, parent, false);
         }
-        TextView reviewAuthor = (TextView) listView.findViewById(R.id.review_author);
-        TextView review = (TextView) listView.findViewById(R.id.review);
+        ButterKnife.bind(this, listView);
+
 
         String reviewItem = getItem(position);
         String[] arry = reviewItem.split("\\[st\\]");

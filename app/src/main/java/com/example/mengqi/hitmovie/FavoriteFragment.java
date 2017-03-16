@@ -14,11 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.mengqi.hitmovie.Utils.sMovies;
 
 public class FavoriteFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
     private SharedPreferences mPreference;
     private FavoriteAdapter mFavoriteAdapter;
 
@@ -34,7 +38,7 @@ public class FavoriteFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorite_list, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
