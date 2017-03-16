@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:nestedScrollingEnabled="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_5"
             android:layout_toEndOf="@+id/imageView"
             android:layout_toLeftOf="@+id/checkBox"
             android:layout_toRightOf="@+id/imageView"
@@ -31,9 +32,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/imageView"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_5"
             android:inputType="date"
-            android:text="2000-1-1" />
+            tools:text="2000-1-1" />
 
         <TextView
             android:id="@+id/review_text"
@@ -43,7 +44,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/trailerView"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_5"
             android:text="@string/review_title"
             android:textColor="@color/accent_material_dark" />
 
@@ -55,8 +56,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_10"
             android:button="@drawable/favorite"
             android:gravity="center" />
 
@@ -94,8 +95,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/ratingBar"
-            android:layout_margin="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_margin="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_15"
             android:maxLines="10"
             android:scrollbars="vertical"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
@@ -107,18 +108,18 @@
             android:layout_alignLeft="@+id/data_release"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/data_release"
-            android:layout_margin="5dp" />
+            android:layout_margin="@dimen/margin_5" />
 
         <TextView
             android:id="@+id/rate_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/ratingBar"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_5"
             android:layout_toEndOf="@+id/ratingBar"
             android:layout_toRightOf="@+id/ratingBar"
             android:gravity="center"
-            android:paddingTop="5dp"
-            android:textSize="20sp" />
+            android:paddingTop="@dimen/margin_5"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 </ScrollView>

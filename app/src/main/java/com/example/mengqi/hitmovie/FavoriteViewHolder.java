@@ -22,7 +22,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
         mImageView = (ImageView) itemView.findViewById(R.id.movie_photo);
         mCardView = (CardView) itemView.findViewById(R.id.card_view);
         itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 MovieFragment fragment = new MovieFragment();
@@ -35,7 +34,6 @@ public class FavoriteViewHolder extends RecyclerView.ViewHolder {
                         .replace(R.id.container, fragment)
                         .commit();
             }
-
         });
     }
 

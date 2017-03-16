@@ -41,11 +41,13 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     private Movie mMovie;
     private FragmentActivity mActivity;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+
     }
 
     @Override
@@ -137,5 +139,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getActivity().getLoaderManager().restartLoader(0, null, this);
     }
 }

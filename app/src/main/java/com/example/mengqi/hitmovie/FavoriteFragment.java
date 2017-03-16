@@ -50,10 +50,10 @@ public class FavoriteFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.setting_favorite);
-        String peopleString = mPreference.getString(Utils.KEY_FAVORITE, null);
-        if (TextUtils.isEmpty(peopleString))
+        String movieString = mPreference.getString(Utils.KEY_FAVORITE, null);
+        if (TextUtils.isEmpty(movieString))
             return;
-        sMovies = Utils.GSON.fromJson(peopleString, MovieList.class);
+        sMovies = Utils.GSON.fromJson(movieString, MovieList.class);
     }
 
     @Override
